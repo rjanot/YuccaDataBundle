@@ -1,0 +1,34 @@
+{
+    "name": "yucca/data-bundle",
+    "type": "symfony-bundle",
+    "description": "Add powerful symfony commands to your yucca installation : patch your schema, and add fixtures",
+    "keywords": ["yucca","orm","fixtures","data","installer","updater"],
+    "homepage": "http://rjanot.github.io/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rémi JANOT",
+            "email": "r.janot@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "yucca/yucca": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~3.7",
+        "squizlabs/php_codesniffer": "1.4.*",
+	    "psr/log": "1.0.*@dev",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Yucca\\Bundle\\DataBundle": "" }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "Yucca/Bundle/DataBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
