@@ -3,12 +3,14 @@
     "type": "symfony-bundle",
     "description": "Add powerful symfony commands to your yucca installation : patch your schema, and add fixtures",
     "keywords": ["yucca","orm","fixtures","data","installer","updater"],
-    "homepage": "http://rjanot.github.io/",
+    "homepage": "http://github.com/yucca-php/YuccaDataBundle",
     "license": "MIT",
     "authors": [
         {
             "name": "Rémi JANOT",
-            "email": "r.janot@gmail.com"
+            "email": "r.janot@gmail.com",
+            "homepage": "http://rjanot.github.io",
+            "role": "Developer"
         }
     ],
     "require": {
