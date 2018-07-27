@@ -3,13 +3,18 @@
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+    <parameters>
+        <parameter key="yucca-data.mysql.options"></parameter>
+        <parameter key="yucca-data.authorized">false</parameter>
+    </parameters>
     <services>
         <service id="datas.reset" class="Yucca\Bundle\DataBundle\Data\Reset">
             <argument type="service" id="yucca.connection_manager"/>
             <argument>%yucca.connections%</argument>
             <argument>%kernel.root_dir%/../datas/schema</argument>
             <argument>%kernel.root_dir%/../datas/fixtures/%kernel.environment%/%%s.sql</argument>
+            <argument>%yucca-data.mysql.options%</argument>
+            <argument>%yucca-data.authorized%</argument>
         </service>
     </services>
 </container>

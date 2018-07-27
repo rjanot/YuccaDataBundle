@@ -27,18 +27,27 @@ class Reset
      */
     protected $output;
 
+    protected $mysqlOptions;
+    protected $isAuthorized;
+
     /**
-     * @param \Yucca\Component\ConnectionManager $yuccaConnectionManager
-     * @param array                              $yuccaConnectionsConfiguration
-     * @param string                             $schemaPath
-     * @param string                             $dataPath
+     * Reset constructor.
+     *
+     * @param ConnectionManager $yuccaConnectionManager
+     * @param array             $yuccaConnectionsConfiguration
+     * @param string            $schemaPath
+     * @param string            $dataPath
+     * @param string            $mysqlOptions
+     * @param bool              $isAuthorized
      */
-    public function __construct(ConnectionManager $yuccaConnectionManager, array $yuccaConnectionsConfiguration, $schemaPath, $dataPath)
+    public function __construct(ConnectionManager $yuccaConnectionManager, array $yuccaConnectionsConfiguration, $schemaPath, $dataPath, $mysqlOptions = '', $isAuthorized = false)
     {
         $this->yuccaConnectionManager = $yuccaConnectionManager;
         $this->yuccaConnectionsConfiguration = $yuccaConnectionsConfiguration;
         $this->schemaPath = $schemaPath;
         $this->dataPath = $dataPath;
+        $this->mysqlOptions = $mysqlOptions;
+        $this->isAuthorized = $isAuthorized;
     }
 
     /**
@@ -46,6 +55,9 @@ class Reset
      */
     public function resetSchema($addDatas = true)
     {
+        if (!$this->isAuthorized) {
+            throw new \RuntimeException('You are not authorized to reset schema in this environment');
+        }
         foreach ($this->yuccaConnectionsConfiguration as $connectionName => $connection) {
             if ($connection['type'] != 'doctrine' || empty($connection['options']['dbname'])) {
                 continue;
@@ -162,13 +174,14 @@ class Reset
     protected function importFileToMysql($connection, $file)
     {
         exec(sprintf(
-            'mysql -u"%s" -p"%s" --port="%s" -h"%s" "%s" --default-character-set="%s" < %s',
+            'mysql -u"%s" -p"%s" --port="%s" -h"%s" "%s" --default-character-set="%s" %s < %s',
             $connection['options']['user'],
             $connection['options']['password'],
             $connection['options']['port'],
             $connection['options']['host'],
             $connection['options']['dbname'],
             $connection['options']['charset'],
+            $this->mysqlOptions,
             $file
         ));
     }
